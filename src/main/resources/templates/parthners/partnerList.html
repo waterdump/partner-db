@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>업체 목록</title>
+    <style>
+        body { font-family: sans-serif; margin: 30px; }
+        table { border-collapse: collapse; width: 100%; }
+        th, td { border-bottom: 1px solid #ddd; padding: 8px; text-align: left; }
+        th { background: #f5f5f5; }
+    </style>
+</head>
+<body>
+<h1>업체 목록</h1>
+
+<form action="/partners" method="get">
+    <input type="text" name="keyword" th:value="${keyword}" placeholder="업체명 검색">
+    <button type="submit">검색</button>
+    <a href="/partners">전체 보기</a>
+    |
+    <a href="/partners/new">+ 업체 등록</a>
+</form>
+
+<p>총 <span th:text="${#lists.size(partners)}">0</span>건</p>
+
+<table>
+    <thead>
+    <tr>
+        <th>번호</th>
+        <th>업체명</th>
+        <th>이메일</th>
+        <th>전화번호</th>
+        <th>담당자</th>
+        <th>구분</th>
+        <th>영업상태</th>
+        <th>입력일</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="p : ${partners}">
+        <td th:text="${p.id}"></td>
+        <td th:text="${p.name}"></td>
+        <td th:text="${p.email}"></td>
+        <td th:text="${p.phone}"></td>
+        <td th:text="${p.manager}"></td>
+        <td th:text="${p.category}"></td>
+        <td th:text="${p.salesStatus}"></td>
+        <td th:text="${p.createdDate}"></td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>
