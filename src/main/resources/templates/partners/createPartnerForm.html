@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>업체 등록</title>
+    <style>
+        body { font-family: sans-serif; margin: 30px; }
+        .row { margin-bottom: 10px; }
+        label { display: inline-block; width: 90px; }
+        input, select { width: 300px; padding: 4px; }
+    </style>
+</head>
+<body>
+<h1>업체 등록</h1>
+
+<form action="/partners/new" method="post" th:object="${partner}">
+    <div class="row"><label>업체명</label><input type="text" th:field="*{name}"></div>
+    <div class="row"><label>이메일</label><input type="text" th:field="*{email}"></div>
+    <div class="row"><label>전화번호</label><input type="text" th:field="*{phone}"></div>
+    <div class="row"><label>휴대전화</label><input type="text" th:field="*{mobile}"></div>
+    <div class="row"><label>주소</label><input type="text" th:field="*{address}"></div>
+    <div class="row"><label>사업명</label><input type="text" th:field="*{businessName}"></div>
+    <div class="row"><label>담당자</label><input type="text" th:field="*{manager}"></div>
+    <div class="row"><label>대표자</label><input type="text" th:field="*{ceo}"></div>
+    <div class="row"><label>홈페이지</label><input type="text" th:field="*{homepage}"></div>
+    <div class="row">
+        <label>구분</label>
+        <select th:field="*{category}">
+            <option value="">없음</option>
+            <option value="진행">진행</option>
+            <option value="문의">문의</option>
+            <option value="제외">제외</option>
+            <option value="구독취소">구독취소</option>
+        </select>
+    </div>
+    <div class="row"><label>비고</label><input type="text" th:field="*{memo}"></div>
+
+    <button type="submit">등록</button>
+    <a href="/partners">취소</a>
+</form>
+</body>
+</html>
