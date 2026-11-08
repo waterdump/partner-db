@@ -2,52 +2,79 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>업체 목록</title>
-    <style>
-        body { font-family: sans-serif; margin: 30px; }
-        table { border-collapse: collapse; width: 100%; }
-        th, td { border-bottom: 1px solid #ddd; padding: 8px; text-align: left; }
-        th { background: #f5f5f5; }
-    </style>
+    <link rel="stylesheet" th:href="@{/css/partner.css}" href="../../static/css/partner.css">
 </head>
 <body>
-<h1>업체 목록</h1>
+<div class="app">
 
-<form action="/partners" method="get">
-    <input type="text" name="keyword" th:value="${keyword}" placeholder="업체명 검색">
-    <button type="submit">검색</button>
-    <a href="/partners">전체 보기</a>
-    |
-    <a href="/partners/new">+ 업체 등록</a>
-</form>
+    <aside class="side">
+        <div class="logo">업체 관리<span>partner-db</span></div>
+        <nav>
+            <a href="/partners" class="on">업체 목록</a>
+            <a href="/partners/new">업체 등록</a>
+        </nav>
+    </aside>
 
-<p>총 <span th:text="${#lists.size(partners)}">0</span>건</p>
+    <main class="main">
+        <div class="page-head">
+            <div>
+                <h1>업체 목록</h1>
+                <p>등록된 업체를 보고 업체명으로 검색합니다.</p>
+            </div>
+            <a href="/partners/new" class="btn">+ 업체 등록</a>
+        </div>
 
-<table>
-    <thead>
-    <tr>
-        <th>번호</th>
-        <th>업체명</th>
-        <th>이메일</th>
-        <th>전화번호</th>
-        <th>담당자</th>
-        <th>구분</th>
-        <th>영업상태</th>
-        <th>입력일</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="p : ${partners}">
-        <td th:text="${p.id}"></td>
-        <td th:text="${p.name}"></td>
-        <td th:text="${p.email}"></td>
-        <td th:text="${p.phone}"></td>
-        <td th:text="${p.manager}"></td>
-        <td th:text="${p.category}"></td>
-        <td th:text="${p.salesStatus}"></td>
-        <td th:text="${p.createdDate}"></td>
-    </tr>
-    </tbody>
-</table>
+        <form action="/partners" method="get" class="card search">
+            <input type="text" name="keyword" th:value="${keyword}" placeholder="업체명으로 검색">
+            <button type="submit" class="btn">검색</button>
+            <a href="/partners" class="btn gray">전체 보기</a>
+        </form>
+
+        <p class="count">총 <b th:text="${#lists.size(partners)}">0</b>건</p>
+
+        <div class="card table-wrap">
+            <table>
+                <thead>
+                <tr>
+                    <th>번호</th>
+                    <th>업체명</th>
+                    <th>이메일</th>
+                    <th>전화번호</th>
+                    <th>담당자</th>
+                    <th>구분</th>
+                    <th>영업상태</th>
+                    <th>입력일</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:if="${#lists.isEmpty(partners)}">
+                    <td colspan="8" class="empty">등록된 업체가 없습니다.</td>
+                </tr>
+                <tr th:each="p : ${partners}">
+                    <td class="muted" th:text="${p.id}"></td>
+                    <td th:text="${p.name}"></td>
+                    <td th:text="${#strings.isEmpty(p.email)} ? '-' : ${p.email}"></td>
+                    <td th:text="${#strings.isEmpty(p.phone)} ? '-' : ${p.phone}"></td>
+                    <td th:text="${#strings.isEmpty(p.manager)} ? '-' : ${p.manager}"></td>
+                    <td>
+                        <span class="pill"
+                              th:classappend="${#strings.isEmpty(p.category)} ? 'pill-none' : 'pill-' + ${p.category}"
+                              th:text="${#strings.isEmpty(p.category)} ? '-' : ${p.category}"></span>
+                    </td>
+                    <td>
+                        <span class="pill"
+                              th:classappend="${#strings.isEmpty(p.salesStatus)} ? 'pill-none' : 'pill-' + ${p.salesStatus}"
+                              th:text="${#strings.isEmpty(p.salesStatus)} ? '-' : ${p.salesStatus}"></span>
+                    </td>
+                    <td class="muted" th:text="${p.createdDate}"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </main>
+
+</div>
 </body>
 </html>

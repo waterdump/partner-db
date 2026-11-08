@@ -2,41 +2,60 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>업체 등록</title>
-    <style>
-        body { font-family: sans-serif; margin: 30px; }
-        .row { margin-bottom: 10px; }
-        label { display: inline-block; width: 90px; }
-        input, select { width: 300px; padding: 4px; }
-    </style>
+    <link rel="stylesheet" th:href="@{/css/partner.css}" href="../../static/css/partner.css">
 </head>
 <body>
-<h1>업체 등록</h1>
+<div class="app">
 
-<form action="/partners/new" method="post" th:object="${partner}">
-    <div class="row"><label>업체명</label><input type="text" th:field="*{name}"></div>
-    <div class="row"><label>이메일</label><input type="text" th:field="*{email}"></div>
-    <div class="row"><label>전화번호</label><input type="text" th:field="*{phone}"></div>
-    <div class="row"><label>휴대전화</label><input type="text" th:field="*{mobile}"></div>
-    <div class="row"><label>주소</label><input type="text" th:field="*{address}"></div>
-    <div class="row"><label>사업명</label><input type="text" th:field="*{businessName}"></div>
-    <div class="row"><label>담당자</label><input type="text" th:field="*{manager}"></div>
-    <div class="row"><label>대표자</label><input type="text" th:field="*{ceo}"></div>
-    <div class="row"><label>홈페이지</label><input type="text" th:field="*{homepage}"></div>
-    <div class="row">
-        <label>구분</label>
-        <select th:field="*{category}">
-            <option value="">없음</option>
-            <option value="진행">진행</option>
-            <option value="문의">문의</option>
-            <option value="제외">제외</option>
-            <option value="구독취소">구독취소</option>
-        </select>
-    </div>
-    <div class="row"><label>비고</label><input type="text" th:field="*{memo}"></div>
+    <aside class="side">
+        <div class="logo">업체 관리<span>partner-db</span></div>
+        <nav>
+            <a href="/partners">업체 목록</a>
+            <a href="/partners/new" class="on">업체 등록</a>
+        </nav>
+    </aside>
 
-    <button type="submit">등록</button>
-    <a href="/partners">취소</a>
-</form>
+    <main class="main">
+        <div class="page-head">
+            <div>
+                <h1>업체 등록</h1>
+                <p>입력일과 영업상태(미접촉)는 자동으로 들어갑니다.</p>
+            </div>
+        </div>
+
+        <form action="/partners/new" method="post" th:object="${partner}" class="card form-card">
+            <div class="form-grid">
+                <div><label>업체명 <span class="req">*</span></label><input type="text" th:field="*{name}" required></div>
+                <div><label>이메일</label><input type="text" th:field="*{email}"></div>
+                <div><label>전화번호</label><input type="text" th:field="*{phone}"></div>
+                <div><label>휴대전화</label><input type="text" th:field="*{mobile}"></div>
+                <div class="full"><label>주소</label><input type="text" th:field="*{address}"></div>
+                <div><label>사업명</label><input type="text" th:field="*{businessName}"></div>
+                <div><label>홈페이지</label><input type="text" th:field="*{homepage}"></div>
+                <div><label>담당자</label><input type="text" th:field="*{manager}"></div>
+                <div><label>대표자</label><input type="text" th:field="*{ceo}"></div>
+                <div>
+                    <label>구분</label>
+                    <select th:field="*{category}">
+                        <option value="">없음</option>
+                        <option value="진행">진행</option>
+                        <option value="문의">문의</option>
+                        <option value="제외">제외</option>
+                        <option value="구독취소">구독취소</option>
+                    </select>
+                </div>
+                <div class="full"><label>비고</label><textarea th:field="*{memo}" rows="3"></textarea></div>
+            </div>
+
+            <div class="form-actions">
+                <button type="submit" class="btn">등록</button>
+                <a href="/partners" class="btn gray">취소</a>
+            </div>
+        </form>
+    </main>
+
+</div>
 </body>
 </html>
