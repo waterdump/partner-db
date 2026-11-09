@@ -43,4 +43,22 @@ public class PartnerService {
     public List<Partner> search(String keyword) {
         return partnerRepository.findByNameContaining(keyword);
     }
+
+    // 업체 정보 수정
+    public void update(Long id, Partner form) {
+        Partner partner = partnerRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("업체가 없습니다. id=" + id));
+
+        partner.setName(form.getName());
+        partner.setEmail(form.getEmail());
+        partner.setPhone(form.getPhone());
+        partner.setMobile(form.getMobile());
+        partner.setAddress(form.getAddress());
+        partner.setBusinessName(form.getBusinessName());
+        partner.setManager(form.getManager());
+        partner.setCeo(form.getCeo());
+        partner.setHomepage(form.getHomepage());
+        partner.setCategory(form.getCategory());
+        partner.setMemo(form.getMemo());
+    }
 }
