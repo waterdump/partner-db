@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>업체 수정</title>
+  <link rel="stylesheet" th:href="@{/css/partner.css}" href="../../static/css/partner.css">
+</head>
+<body>
+<div class="app">
+
+  <aside class="side">
+    <div class="logo">업체 관리<span>partner-db</span></div>
+    <nav>
+      <a href="/partners" class="on">업체 목록</a>
+      <a href="/partners/new">업체 등록</a>
+    </nav>
+  </aside>
+
+  <main class="main">
+    <div class="page-head">
+      <div>
+        <h1>업체 수정</h1>
+        <p>입력일과 영업상태는 수정되지 않습니다.</p>
+      </div>
+    </div>
+
+    <form th:action="@{/partners/{id}/edit(id=${partner.id})}" method="post" th:object="${partner}" class="card form-card">
+      <div class="form-grid">
+        <div><label>업체명 <span class="req">*</span></label><input type="text" th:field="*{name}" required></div>
+        <div><label>이메일</label><input type="text" th:field="*{email}"></div>
+        <div><label>전화번호</label><input type="text" th:field="*{phone}"></div>
+        <div><label>휴대전화</label><input type="text" th:field="*{mobile}"></div>
+        <div class="full"><label>주소</label><input type="text" th:field="*{address}"></div>
+        <div><label>사업명</label><input type="text" th:field="*{businessName}"></div>
+        <div><label>홈페이지</label><input type="text" th:field="*{homepage}"></div>
+        <div><label>담당자</label><input type="text" th:field="*{manager}"></div>
+        <div><label>대표자</label><input type="text" th:field="*{ceo}"></div>
+        <div>
+          <label>구분</label>
+          <select th:field="*{category}">
+            <option value="">없음</option>
+            <option value="진행">진행</option>
+            <option value="문의">문의</option>
+            <option value="제외">제외</option>
+            <option value="구독취소">구독취소</option>
+          </select>
+        </div>
+        <div class="full"><label>비고</label><textarea th:field="*{memo}" rows="3"></textarea></div>
+      </div>
+
+      <div class="form-actions">
+        <button type="submit" class="btn">저장</button>
+        <a href="/partners" class="btn gray">취소</a>
+      </div>
+    </form>
+  </main>
+
+</div>
+</body>
+</html>

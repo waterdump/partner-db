@@ -181,3 +181,6 @@ td.empty { padding: 48px; text-align: center; color: #9aa1ad; }
     .search { flex-wrap: wrap; }
     .search input { flex-basis: 100%; }
 }
+
+/* ===== 작은 버튼 ===== */
+.btn.sm { padding: 5px 12px; font-size: 12px; }

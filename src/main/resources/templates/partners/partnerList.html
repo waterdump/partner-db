@@ -46,11 +46,12 @@
                     <th>구분</th>
                     <th>영업상태</th>
                     <th>입력일</th>
+                    <th></th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr th:if="${#lists.isEmpty(partners)}">
-                    <td colspan="8" class="empty">등록된 업체가 없습니다.</td>
+                    <td colspan="9" class="empty">등록된 업체가 없습니다.</td>
                 </tr>
                 <tr th:each="p : ${partners}">
                     <td class="muted" th:text="${p.id}"></td>
@@ -69,6 +70,7 @@
                               th:text="${#strings.isEmpty(p.salesStatus)} ? '-' : ${p.salesStatus}"></span>
                     </td>
                     <td class="muted" th:text="${p.createdDate}"></td>
+                    <td><a th:href="@{/partners/{id}/edit(id=${p.id})}" class="btn gray sm">수정</a></td>
                 </tr>
                 </tbody>
             </table>

@@ -55,7 +55,7 @@ public class PartnerController {
         return "redirect:/partners";
     }
 
-//    업체 수정 화면
+    //    업체 수정 화면
     @GetMapping("/partners/{id}/edit")
     public String editForm(@PathVariable("id") Long id, Model model) {
         Partner partner = partnerService.findOne(id)
