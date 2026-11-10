@@ -1,5 +1,6 @@
 package com.waterdump.partnerdb.controller;
 
+import org.springframework.web.bind.annotation.PathVariable;
 import com.waterdump.partnerdb.domain.Partner;
 import com.waterdump.partnerdb.service.PartnerService;
 import org.springframework.stereotype.Controller;
@@ -51,6 +52,22 @@ public class PartnerController {
     @PostMapping("/partners/new")
     public String create(@ModelAttribute Partner partner) {
         partnerService.register(partner);
+        return "redirect:/partners";
+    }
+
+//    업체 수정 화면
+    @GetMapping("/partners/{id}/edit")
+    public String editForm(@PathVariable("id") Long id, Model model) {
+        Partner partner = partnerService.findOne(id)
+                .orElseThrow(() -> new IllegalArgumentException("업체가 없습니다. id=" + id));
+        model.addAttribute("partner", partner);
+        return "partners/editPartnerForm";
+    }
+
+    // 업체 수정 처리
+    @PostMapping("/partners/{id}/edit")
+    public String edit(@PathVariable("id") Long id, @ModelAttribute Partner form) {
+        partnerService.update(id, form);
         return "redirect:/partners";
     }
 }
