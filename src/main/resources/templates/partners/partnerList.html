@@ -70,7 +70,13 @@
                               th:text="${#strings.isEmpty(p.salesStatus)} ? '-' : ${p.salesStatus}"></span>
                     </td>
                     <td class="muted" th:text="${p.createdDate}"></td>
-                    <td><a th:href="@{/partners/{id}/edit(id=${p.id})}" class="btn gray sm">수정</a></td>
+                    <td class="actions">
+                        <a th:href="@{/partners/{id}/edit(id=${p.id})}" class="btn gray sm">수정</a>
+                        <form th:action="@{/partners/{id}/delete(id=${p.id})}" method="post" class="inline"
+                              onsubmit="return confirm('이 업체를 삭제할까요? 되돌릴 수 없습니다.');">
+                            <button type="submit" class="btn red sm">삭제</button>
+                        </form>
+                    </td>
                 </tr>
                 </tbody>
             </table>

@@ -70,4 +70,10 @@ public class PartnerController {
         partnerService.update(id, form);
         return "redirect:/partners";
     }
+
+    @PostMapping("/partners/{id}/delete")
+    public String delete(@PathVariable("id") Long id) {
+        partnerService.delete(id);
+        return "redirect:/partners";
+    }
 }

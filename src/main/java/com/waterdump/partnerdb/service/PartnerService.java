@@ -61,4 +61,8 @@ public class PartnerService {
         partner.setCategory(form.getCategory());
         partner.setMemo(form.getMemo());
     }
+
+    public void delete(Long id) {
+        partnerRepository.deleteById(id);
+    }
 }

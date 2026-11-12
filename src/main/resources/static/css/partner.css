@@ -184,3 +184,9 @@ td.empty { padding: 48px; text-align: center; color: #9aa1ad; }
 
 /* ===== 작은 버튼 ===== */
 .btn.sm { padding: 5px 12px; font-size: 12px; }
+
+/* ===== 삭제 버튼 ===== */
+.btn.red { background: #fbeaea; color: #c0392b; }
+.btn.red:hover { background: #f5d5d5; }
+form.inline { display: inline; }
+td.actions { white-space: nowrap; }
