@@ -21,6 +21,7 @@ public class PartnerService {
 
     // 업체 등록
     public Long register(Partner partner) {
+        partner.setName(NameNormalizer.tidy(partner.getName()));
         partner.setCreatedDate(LocalDate.now());      // 입력일 = 오늘
         if (partner.getSalesStatus() == null) {
             partner.setSalesStatus("미접촉");          // 영업상태 기본값
@@ -49,7 +50,7 @@ public class PartnerService {
         Partner partner = partnerRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("업체가 없습니다. id=" + id));
 
-        partner.setName(form.getName());
+        partner.setName(NameNormalizer.tidy(form.getName()));
         partner.setEmail(form.getEmail());
         partner.setPhone(form.getPhone());
         partner.setMobile(form.getMobile());
