@@ -25,6 +25,7 @@
             </div>
         </div>
 
+        <div class="alert" th:if="${errorMessage}" th:text="${errorMessage}"></div>
         <form action="/partners/new" method="post" th:object="${partner}" class="card form-card">
             <div class="form-grid">
                 <div><label>업체명 <span class="req">*</span></label><input type="text" th:field="*{name}" required></div>

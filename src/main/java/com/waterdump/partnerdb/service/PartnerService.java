@@ -22,6 +22,7 @@ public class PartnerService {
     // 업체 등록
     public Long register(Partner partner) {
         partner.setName(NameNormalizer.tidy(partner.getName()));
+        validateDuplicate(partner);                    // 중복 검증 (걸리면 여기서 멈춤)
         partner.setCreatedDate(LocalDate.now());      // 입력일 = 오늘
         if (partner.getSalesStatus() == null) {
             partner.setSalesStatus("미접촉");          // 영업상태 기본값
@@ -63,7 +64,35 @@ public class PartnerService {
         partner.setMemo(form.getMemo());
     }
 
+    // 업체 삭제
     public void delete(Long id) {
         partnerRepository.deleteById(id);
+    }
+
+    // 중복 검증 (엑셀 매크로 규칙을 웹에 맞게 정리)
+    private void validateDuplicate(Partner newPartner) {
+        String nameKey = NameNormalizer.forCompare(newPartner.getName());
+        String email = newPartner.getEmail() == null ? "" : newPartner.getEmail().trim();
+
+        for (Partner existing : partnerRepository.findAll()) {
+            boolean sameName = NameNormalizer.forCompare(existing.getName()).equals(nameKey);
+            String category = existing.getCategory() == null ? "" : existing.getCategory();
+
+            // 규칙 1: 구독취소·제외 업체와 업체명이 같으면 차단
+            if (sameName && (category.equals("구독취소") || category.equals("제외"))) {
+                throw new IllegalStateException(category + " 업체라 등록할 수 없습니다: " + existing.getName());
+            }
+
+            // 규칙 2: 이메일이 같은 업체가 있으면 차단
+            if (!email.isEmpty() && email.equalsIgnoreCase(existing.getEmail())) {
+                throw new IllegalStateException("이미 있는 업체입니다 (이메일 일치): " + existing.getName());
+            }
+
+            // 규칙 3: 이메일이 없는데 업체명이 같으면 차단
+            if (email.isEmpty() && sameName) {
+                throw new IllegalStateException("이미 있는 업체입니다 (업체명 일치): " + existing.getName());
+            }
+        }
+        // 규칙 4: 여기까지 왔으면 등록 가능
     }
 }

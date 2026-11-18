@@ -190,3 +190,13 @@ td.empty { padding: 48px; text-align: center; color: #9aa1ad; }
 .btn.red:hover { background: #f5d5d5; }
 form.inline { display: inline; }
 td.actions { white-space: nowrap; }
+
+/* ===== 안내문 ===== */
+.alert {
+    max-width: 820px;
+    background: #fbeaea;
+    color: #c0392b;
+    border-radius: 10px;
+    padding: 12px 16px;
+    margin-bottom: 16px;
+}

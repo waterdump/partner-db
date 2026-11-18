@@ -50,8 +50,13 @@ public class PartnerController {
 
     // 업체 등록 처리
     @PostMapping("/partners/new")
-    public String create(@ModelAttribute Partner partner) {
-        partnerService.register(partner);
+    public String create(@ModelAttribute Partner partner, Model model) {
+        try {
+            partnerService.register(partner);
+        } catch (IllegalStateException e) {
+            model.addAttribute("errorMessage", e.getMessage());
+            return "partners/createPartnerForm";       // 입력한 값 그대로 등록 화면에 다시 보여줌
+        }
         return "redirect:/partners";
     }
 
