@@ -69,6 +69,21 @@ public class PartnerService {
         partnerRepository.deleteById(id);
     }
 
+    // 미접촉 업체: 진행·문의 업체 중 days일 넘게 연락 안 한 곳
+    public List<Partner> findInactive(int days) {
+        LocalDate baseDate = LocalDate.now().minusDays(days);
+        return partnerRepository.findByCategoryInAndLastContactDateBeforeOrderByLastContactDateAsc(
+                List.of("진행", "문의"), baseDate);
+    }
+
+    // 오늘 연락함 처리
+    public void markContacted(Long id) {
+        Partner partner = partnerRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("업체가 없습니다. id=" + id));
+        partner.setLastContactDate(LocalDate.now());
+        partner.setSalesStatus("연락함");
+    }
+
     // 중복 검증 (엑셀 매크로 규칙을 웹에 맞게 정리)
     private void validateDuplicate(Partner newPartner) {
         String nameKey = NameNormalizer.forCompare(newPartner.getName());

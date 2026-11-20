@@ -148,4 +148,12 @@ public class Partner {
     public void setLastContactDate(LocalDate lastContactDate) {
         this.lastContactDate = lastContactDate;
     }
+
+    // 마지막 연락 후 지난 일수 (화면 표시용, DB에 저장하지 않음)
+    public long getDaysSinceContact() {
+        if (lastContactDate == null) {
+            return 0;
+        }
+        return java.time.temporal.ChronoUnit.DAYS.between(lastContactDate, LocalDate.now());
+    }
 }
