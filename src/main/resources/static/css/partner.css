@@ -200,3 +200,6 @@ td.actions { white-space: nowrap; }
     padding: 12px 16px;
     margin-bottom: 16px;
 }
+
+/* ===== 미접촉 경과일 ===== */
+td.days { color: #c0392b; font-weight: 600; }

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>미접촉 업체</title>
+    <link rel="stylesheet" th:href="@{/css/partner.css}" href="../../static/css/partner.css">
+</head>
+<body>
+<div class="app">
+
+    <aside class="side">
+        <div class="logo">업체 관리<span>partner-db</span></div>
+        <nav>
+            <a href="/partners">업체 목록</a>
+            <a href="/partners/new">업체 등록</a>
+            <a href="/partners/inactive" class="on">미접촉 업체</a>
+        </nav>
+    </aside>
+
+    <main class="main">
+        <div class="page-head">
+            <div>
+                <h1>미접촉 업체</h1>
+                <p>진행 · 문의 업체 중 오래 연락하지 않은 곳을 오래된 순으로 보여줍니다.</p>
+            </div>
+            <form action="/partners/inactive" method="get">
+                <select name="days" onchange="this.form.submit()">
+                    <option value="90" th:selected="${days == 90}">90일 이상</option>
+                    <option value="180" th:selected="${days == 180}">180일 이상</option>
+                    <option value="365" th:selected="${days == 365}">1년 이상</option>
+                </select>
+            </form>
+        </div>
+
+        <p class="count">총 <b th:text="${#lists.size(partners)}">0</b>건</p>
+
+        <div class="card table-wrap">
+            <table>
+                <thead>
+                <tr>
+                    <th>업체명</th>
+                    <th>담당자</th>
+                    <th>전화번호</th>
+                    <th>구분</th>
+                    <th>마지막 연락일</th>
+                    <th>경과</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:if="${#lists.isEmpty(partners)}">
+                    <td colspan="7" class="empty">해당 기간에 연락이 끊긴 업체가 없습니다.</td>
+                </tr>
+                <tr th:each="p : ${partners}">
+                    <td th:text="${p.name}"></td>
+                    <td th:text="${#strings.isEmpty(p.manager)} ? '-' : ${p.manager}"></td>
+                    <td th:text="${#strings.isEmpty(p.phone)} ? '-' : ${p.phone}"></td>
+                    <td><span class="pill" th:classappend="'pill-' + ${p.category}" th:text="${p.category}"></span></td>
+                    <td class="muted" th:text="${p.lastContactDate}"></td>
+                    <td class="days" th:text="${p.daysSinceContact} + '일'"></td>
+                    <td>
+                        <form th:action="@{/partners/{id}/contact(id=${p.id}, days=${days})}" method="post" class="inline">
+                            <button type="submit" class="btn sm">오늘 연락함</button>
+                        </form>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </main>
+
+</div>
+</body>
+</html>

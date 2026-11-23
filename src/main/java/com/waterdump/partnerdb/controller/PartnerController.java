@@ -81,4 +81,20 @@ public class PartnerController {
         partnerService.delete(id);
         return "redirect:/partners";
     }
+
+    // 미접촉 업체 목록
+    @GetMapping("/partners/inactive")
+    public String inactive(@RequestParam(value = "days", defaultValue = "90") int days, Model model) {
+        model.addAttribute("partners", partnerService.findInactive(days));
+        model.addAttribute("days", days);
+        return "partners/inactiveList";
+    }
+
+    // 오늘 연락함
+    @PostMapping("/partners/{id}/contact")
+    public String contact(@PathVariable("id") Long id,
+                          @RequestParam(value = "days", defaultValue = "90") int days) {
+        partnerService.markContacted(id);
+        return "redirect:/partners/inactive?days=" + days;
+    }
 }
