@@ -23,23 +23,27 @@ public class PartnerApiController {
 
     // 업체 목록 (검색어가 있으면 검색 결과)
     @GetMapping
-    public List<Partner> list(@RequestParam(value = "keyword", required = false) String keyword) {
+    public List<PartnerResponse> list(@RequestParam(value = "keyword", required = false) String keyword) {
+        List<Partner> partners;
         if (keyword == null || keyword.isBlank()) {
-            return partnerService.findPartners();
+            partners = partnerService.findPartners();
+        } else {
+            partners = partnerService.search(keyword);
         }
-        return partnerService.search(keyword);
+        return partners.stream().map(PartnerResponse::from).toList();
     }
 
     // 미접촉 업체 목록
     @GetMapping("/inactive")
-    public List<Partner> inactive(@RequestParam(value = "days", defaultValue = "90") int days) {
-        return partnerService.findInactive(days);
+    public List<PartnerResponse> inactive(@RequestParam(value = "days", defaultValue = "90") int days) {
+        return partnerService.findInactive(days).stream().map(PartnerResponse::from).toList();
     }
 
     // 업체 하나 (없으면 404)
     @GetMapping("/{id}")
-    public ResponseEntity<Partner> one(@PathVariable("id") Long id) {
+    public ResponseEntity<PartnerResponse> one(@PathVariable("id") Long id) {
         return partnerService.findOne(id)
+                .map(PartnerResponse::from)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
